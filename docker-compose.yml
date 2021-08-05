@@ -1,0 +1,28 @@
+version: '2'
+services:
+#  web:
+#    build:
+#      context: .
+#      dockerfile: docker/web/Dockerfile
+#    ports:
+#      - "80:80" # http
+#      - "443:443" # https
+#    links:
+#      - db
+#    volumes:
+#      - .:.
+  db:
+    build:
+      context: .
+      dockerfile: docker/db/Dockerfile
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_USER: bolt20_user
+      MYSQL_PASSWORD: bolt20_pass
+      MYSQL_ROOT_PASSWORD: bolt20_root
+      MYSQL_DATABASE: bolt20
+    volumes:
+      - mysql_data:/var/lib/mysql
+volumes:
+  mysql_data:
