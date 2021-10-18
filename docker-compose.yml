@@ -11,18 +11,11 @@ services:
 #      - db
 #    volumes:
 #      - .:.
-  db:
-    build:
-      context: .
-      dockerfile: docker/db/Dockerfile
+  mysql:
+    image: mysql:5.7.24
     ports:
       - "3306:3306"
     environment:
-      MYSQL_USER: bolt20_user
-      MYSQL_PASSWORD: bolt20_pass
-      MYSQL_ROOT_PASSWORD: bolt20_root
       MYSQL_DATABASE: bolt20
     volumes:
-      - mysql_data:/var/lib/mysql
-volumes:
-  mysql_data:
+      - ./docker/mysql/data:/var/lib/mysql

@@ -4,11 +4,13 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/kelseyhightower/envconfig"
 	"github.com/pkg/errors"
+	"github.com/raa07/bolt20/database"
 )
 
 type Config struct {
-	Env string
-	Logger LoggerConfig
+	Env      string
+	Logger   LoggerConfig
+	Database database.Config
 }
 
 func loadConfig() (Config, error) {

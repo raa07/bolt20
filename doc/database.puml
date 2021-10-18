@@ -1,0 +1,104 @@
+@startuml
+hide circle
+skinparam linetype ortho
+
+entity "course" as course {
+  *id : number <<generated>>
+  --
+  name: varchar
+  short_description : varchar
+  long_description: text
+  price: integer
+  id_parent_course: integer
+}
+
+entity "module" as module {
+  *id : number <<generated>>
+  --
+  *id_course: integer
+  name: varchar
+  short_description: varchar
+  is_available_in_trial: bool
+}
+
+entity "lesson" as lesson {
+  *id : number <<generated>>
+  --
+  *id_module: integer
+  name: varchar
+  short_description: varchar
+  content: text
+  is_available_in_trial: bool
+}
+
+
+entity "task" as task {
+  *id : number <<generated>>
+  --
+  *id_lesson: integer
+  content: text
+}
+
+entity "user" as user {
+  *id : number <<generated>>
+  --
+}
+
+entity "user_course" as user_course {
+  *id : number <<generated>>
+  --
+  *id_user: integer
+  *id_course: integer
+}
+
+entity "user_completed_lesson" as user_completed_lesson {
+  *id : number <<generated>>
+  --
+  *id_user: integer
+  *id_lesson: integer
+}
+
+entity "user_task" as user_task {
+  *id : number <<generated>>
+  --
+  *id_user: integer
+  *id_task: integer
+  need_file: bool
+  success: bool
+}
+
+entity "user_task_conversation" as user_task_conversation {
+  *id : number <<generated>>
+  --
+  *id_task: integer
+  *id_user_task: integer
+  *id_user_author: integer
+  content: text
+}
+
+
+course -- course
+'many to one
+module *-- course
+'many to one
+lesson *-- module
+'many to one
+task *-- lesson
+'many to one
+user_course *-- user
+'many to one
+user_completed_lesson *-- user
+'many to one
+user_completed_lesson *-- lesson
+'many to one
+user_course *-- course
+'many to one
+user_task *-- user
+'many to one
+user_task *-- task
+'many to one
+user_task_conversation *-- user_task
+'many to one
+user_task_conversation *-- user
+
+@enduml
