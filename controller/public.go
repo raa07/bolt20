@@ -1,4 +1,4 @@
-package controllers
+package controller
 
 import (
 	"github.com/labstack/echo/v4"
@@ -28,7 +28,9 @@ func (pc PublicController) HandleMainPage(context echo.Context) error {
 	cl, err := mp.GetCoursesList()
 	log.Print(cl)
 
-	return context.Render(http.StatusOK, "main_page.html", map[string]interface{}{})
+	return context.Render(http.StatusOK, "main_page", map[string]interface{}{
+		"courses": cl,
+	})
 }
 
 /*

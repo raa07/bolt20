@@ -17,7 +17,7 @@ func InitRender(e *echo.Echo) error {
 		return err
 	}
 	renderer := &TemplateRenderer{
-		templates: template.Must(template.ParseGlob(wd + "/templates/*/*.html")),
+		templates: template.Must(template.ParseGlob(wd + "/template/*/*.html")),
 	}
 	e.Renderer = renderer
 

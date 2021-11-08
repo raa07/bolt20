@@ -2,4 +2,4 @@
 .env
 main
 
-docker/mysql
+deployment/docker/mysql

@@ -5,7 +5,7 @@ import (
 	"github.com/raa07/bolt20/entity"
 )
 
-type CourseDataProvider struct{
+type CourseDataProvider struct {
 	db database.Database
 }
 
@@ -26,4 +26,3 @@ func (p CourseDataProvider) GetAllCourses() ([]entity.Course, error) {
 func (p CourseDataProvider) GetAllCoursesForUser() ([]entity.Course, error) {
 	return []entity.Course{}, nil
 }
-

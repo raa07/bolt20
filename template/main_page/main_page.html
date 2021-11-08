@@ -1,0 +1,12 @@
+{{define "main_page"}}
+
+{{template "header.html"}}
+
+{{range $val := .courses}}
+
+{{$val.Title}}
+
+{{end}}
+
+{{template "footer.html"}}
+{{end}}

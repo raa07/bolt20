@@ -3,7 +3,7 @@ package main
 import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/echo/v4"
-	"github.com/raa07/bolt20/controllers"
+	"github.com/raa07/bolt20/controller"
 	"github.com/raa07/bolt20/database"
 	"log"
 )
@@ -33,8 +33,10 @@ func main() {
 		log.Fatal(err)
 	}
 
-	pc, err := controllers.NewPublicController(db, e)
-
+	pc, err := controller.NewPublicController(db, e)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	e.HTTPErrorHandler = customHTTPErrorHandler
 
