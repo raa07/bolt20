@@ -1,0 +1,16 @@
+{{define "module_page"}}
+
+{{template "header.html"}}
+Module title: {{.module.Title}}
+
+{{$course := .course}}
+{{$module := .module}}
+
+{{range $val := .lessons}}
+
+<a href="/courses/{{$course.Id}}/module/{{$module.Id}}/lesson/{{$val.Id}}">{{$val.Title}}</a>
+
+{{end}}
+
+{{template "footer.html"}}
+{{end}}

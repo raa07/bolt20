@@ -4,7 +4,7 @@
 
 {{range $val := .courses}}
 
-{{$val.Title}}
+<a href="/course/{{$val.Id}}">{{$val.Title}}</a>
 
 {{end}}
 

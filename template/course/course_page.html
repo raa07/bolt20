@@ -1,0 +1,14 @@
+{{define "course_page"}}
+
+{{template "header.html"}}
+Course title: {{.course.Title}}
+
+{{$course := .course}}
+{{range $val := .modules}}
+
+<a href="/courses/{{$course.Id}}/module/{{$val.Id}}">{{$val.Title}}</a>
+
+{{end}}
+
+{{template "footer.html"}}
+{{end}}
