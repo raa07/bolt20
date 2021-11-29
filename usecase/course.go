@@ -20,8 +20,14 @@ type CoursePage struct {
 
 type ModulePage struct {
 	Lessons []entity.Lesson
-	Module entity.Module
+	Module  entity.Module
 	Course  entity.Course
+}
+
+type LessonPage struct {
+	Lesson entity.Lesson
+	Module entity.Module
+	Course entity.Course
 }
 
 func NewCourse(db database.Database) (Course, error) {
@@ -47,11 +53,11 @@ func NewCourse(db database.Database) (Course, error) {
 }
 
 func (c Course) CoursePage(id uint64) (CoursePage, error) {
-	course, err := c.CourseDataProvider.GetCourseById(id)
+	course, err := c.CourseDataProvider.CourseById(id)
 	if err != nil {
 		return CoursePage{}, err
 	}
-	modules, err := c.ModuleDataProvider.GetModulesByCourseId(id)
+	modules, err := c.ModuleDataProvider.ModulesByCourseId(id)
 	if err != nil {
 		return CoursePage{}, err
 	}
@@ -63,22 +69,45 @@ func (c Course) CoursePage(id uint64) (CoursePage, error) {
 }
 
 func (c Course) ModulePage(moduleId uint64, courseId uint64) (ModulePage, error) {
-	lessons, err := c.LessonDataProvider.GetLessonsByModuleId(moduleId)
+	lessons, err := c.LessonDataProvider.LessonsByModuleId(moduleId)
 	if err != nil {
 		return ModulePage{}, err
 	}
-	module, err := c.ModuleDataProvider.GetModuleById(moduleId)
+	module, err := c.ModuleDataProvider.ModuleById(moduleId)
 	if err != nil {
 		return ModulePage{}, err
 	}
 
-	course, err := c.CourseDataProvider.GetCourseById(courseId)
+	course, err := c.CourseDataProvider.CourseById(courseId)
 	if err != nil {
 		return ModulePage{}, err
 	}
 
 	return ModulePage{
 		lessons,
+		module,
+		course,
+	}, nil
+}
+
+func (c Course) LessonPage(courseId, moduleId, lessonId uint64) (LessonPage, error) {
+	module, err := c.ModuleDataProvider.ModuleById(moduleId)
+	if err != nil {
+		return LessonPage{}, err
+	}
+
+	course, err := c.CourseDataProvider.CourseById(courseId)
+	if err != nil {
+		return LessonPage{}, err
+	}
+
+	lesson, err := c.LessonDataProvider.LessonById(lessonId)
+	if err != nil {
+		return LessonPage{}, err
+	}
+
+	return LessonPage{
+		lesson,
 		module,
 		course,
 	}, nil

@@ -1,14 +1,15 @@
 package controller
 
 import (
+	"log"
+	"net/http"
+
 	"github.com/labstack/echo/v4"
 	"github.com/raa07/bolt20/database"
 	"github.com/raa07/bolt20/usecase"
-	"log"
-	"net/http"
 )
 
-type PublicController struct {
+type Public struct {
 	db   database.Database
 	echo *echo.Echo
 }
@@ -16,11 +17,11 @@ type PublicController struct {
 //add main page request
 //add main page view data for template
 
-func NewPublicController(db database.Database, echo *echo.Echo) (PublicController, error) {
-	return PublicController{db, echo}, nil
+func NewPublicController(db database.Database, echo *echo.Echo) (Public, error) {
+	return Public{db, echo}, nil
 }
 
-func (pc PublicController) HandleMainPage(context echo.Context) error {
+func (pc Public) HandleMainPage(context echo.Context) error {
 	mp, err := usecase.NewMainPage(pc.db)
 	if err != nil {
 		return err

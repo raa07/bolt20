@@ -2,28 +2,29 @@ package controller
 
 import (
 	"fmt"
-	"github.com/labstack/echo/v4"
-	"github.com/raa07/bolt20/usecase"
 	"net/http"
 	"strconv"
+
+	"github.com/labstack/echo/v4"
+	"github.com/raa07/bolt20/usecase"
 )
 
-type CourseController struct {
-	echo *echo.Echo
+type Course struct {
+	echo    *echo.Echo
 	useCase usecase.Course
 }
 
-func NewCourseController (e *echo.Echo, useCase usecase.Course) (CourseController, error) {
-	return CourseController{e, useCase}, nil
+func NewCourseController(e *echo.Echo, useCase usecase.Course) (Course, error) {
+	return Course{e, useCase}, nil
 }
 
-func (c CourseController) CoursePage(context echo.Context) error {
-	idCourseUint, err := strconv.ParseUint(context.Param("id"), 10, 64)
+func (c Course) CoursePage(context echo.Context) error {
+	idCourse, err := strconv.ParseUint(context.Param("id"), 10, 64)
 	if err != nil {
 		panic(err) //todo: fix panic
 	}
 
-	coursePageData, err := c.useCase.CoursePage(idCourseUint)
+	coursePageData, err := c.useCase.CoursePage(idCourse)
 	if err != nil {
 		panic(err) //todo: fix panic
 	}
@@ -31,32 +32,58 @@ func (c CourseController) CoursePage(context echo.Context) error {
 	fmt.Println(coursePageData.Modules)
 
 	return context.Render(http.StatusOK, "course_page", map[string]interface{}{
-		"course": coursePageData.Course,
+		"course":  coursePageData.Course,
 		"modules": coursePageData.Modules,
 	})
 }
 
-func (c CourseController) ModulePage(context echo.Context) error {
-	idModuleUint, err := strconv.ParseUint(context.Param("idModule"), 10, 64)
+func (c Course) ModulePage(context echo.Context) error {
+	idModule, err := strconv.ParseUint(context.Param("idModule"), 10, 64)
 	if err != nil {
 		panic(err) //todo: fix panic
 	}
 
-	idCourseUint, err := strconv.ParseUint(context.Param("idCourse"), 10, 64)
+	idCourse, err := strconv.ParseUint(context.Param("idCourse"), 10, 64)
 	if err != nil {
 		panic(err) //todo: fix panic
 	}
 
-	modulePageData, err := c.useCase.ModulePage(idModuleUint, idCourseUint)
+	modulePageData, err := c.useCase.ModulePage(idModule, idCourse)
 	if err != nil {
 		panic(err) //todo: fix panic
 	}
-
-	fmt.Println(modulePageData)
 
 	return context.Render(http.StatusOK, "module_page", map[string]interface{}{
 		"lessons": modulePageData.Lessons,
-		"module": modulePageData.Module,
-		"course": modulePageData.Course,
+		"module":  modulePageData.Module,
+		"course":  modulePageData.Course,
+	})
+}
+
+func (c Course) LessonPage(context echo.Context) error {
+	idModule, err := strconv.ParseUint(context.Param("idModule"), 10, 64)
+	if err != nil {
+		panic(err) //todo: fix panic
+	}
+
+	idCourse, err := strconv.ParseUint(context.Param("idCourse"), 10, 64)
+	if err != nil {
+		panic(err) //todo: fix panic
+	}
+
+	idLesson, err := strconv.ParseUint(context.Param("idLesson"), 10, 64)
+	if err != nil {
+		panic(err) //todo: fix panic
+	}
+
+	lessonPageData, err := c.useCase.LessonPage(idCourse, idModule, idLesson)
+	if err != nil {
+		panic(err) //todo: fix panic
+	}
+
+	return context.Render(http.StatusOK, "lesson_page", map[string]interface{}{
+		"lesson": lessonPageData.Lesson,
+		"module": lessonPageData.Module,
+		"course": lessonPageData.Course,
 	})
 }

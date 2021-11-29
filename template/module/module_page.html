@@ -8,7 +8,7 @@ Module title: {{.module.Title}}
 
 {{range $val := .lessons}}
 
-<a href="/courses/{{$course.Id}}/module/{{$module.Id}}/lesson/{{$val.Id}}">{{$val.Title}}</a>
+<a href="/course/{{$course.Id}}/module/{{$module.Id}}/lesson/{{$val.Id}}">{{$val.Title}}</a>
 
 {{end}}
 

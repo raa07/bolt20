@@ -1,12 +1,13 @@
 package main
 
 import (
+	"log"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/echo/v4"
 	"github.com/raa07/bolt20/controller"
 	"github.com/raa07/bolt20/database"
 	"github.com/raa07/bolt20/usecase"
-	"log"
 )
 
 func main() {
@@ -15,7 +16,6 @@ func main() {
 		// Unrecoverable error.
 		log.Fatal(err)
 	}
-
 	logger, err := NewLogger(config.Logger)
 	if err != nil {
 		// Unrecoverable error.
@@ -23,9 +23,12 @@ func main() {
 	}
 
 	db, err := database.NewDatabase(config.Database)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	logger.Info("Application started")
 	logger.Info("Db connected: ", db)
+	logger.Info("Application started")
 
 	e := echo.New()
 
@@ -33,8 +36,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-/////////////////////////////
+	/////////////////////////////
 	useCase, err := usecase.NewCourse(db)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	pc, err := controller.NewPublicController(db, e)
 	if err != nil {
@@ -49,8 +55,9 @@ func main() {
 	e.HTTPErrorHandler = customHTTPErrorHandler
 
 	e.GET("/", pc.HandleMainPage)
-	e.GET("/courses/:id", cc.CoursePage)
-	e.GET("/courses/:idCourse/module/:idModule", cc.ModulePage)
+	e.GET("/course/:id", cc.CoursePage)
+	e.GET("/course/:idCourse/module/:idModule", cc.ModulePage)
+	e.GET("/course/:idCourse/module/:idModule/lesson/:idLesson", cc.LessonPage)
 
 	e.Logger.Fatal(e.Start(":80"))
 }

@@ -1,0 +1,13 @@
+{{define "lesson_page"}}
+
+{{template "header.html"}}
+Module title: {{.module.Title}}
+Lesson title: {{.lesson.Title}}
+
+
+<p>Text:</p>
+{{.lesson.Content}}
+
+
+{{template "footer.html"}}
+{{end}}

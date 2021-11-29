@@ -10,7 +10,7 @@ type MainPage struct {
 	db database.Database
 }
 
-func NewMainPage(db database.Database) (MainPage, error)  {
+func NewMainPage(db database.Database) (MainPage, error) {
 	return MainPage{db}, nil
 }
 
@@ -20,14 +20,13 @@ func (mp MainPage) GetCoursesList() ([]entity.Course, error) {
 		return []entity.Course{}, err
 	}
 
-	courseList, err := cdp.GetAllCourses()
+	courseList, err := cdp.AllCourses()
 	if err != nil {
 		return []entity.Course{}, err
 	}
 
 	return courseList, nil
 }
-
 
 //сделать через фабрику/registry и то же самое с dataprovider
 // snake case в названиях файлов

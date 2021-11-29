@@ -1,9 +1,10 @@
 package dataprovider
 
 import (
+	"strconv"
+
 	"github.com/raa07/bolt20/database"
 	"github.com/raa07/bolt20/entity"
-	"strconv"
 )
 
 type CourseDataProvider struct {
@@ -14,7 +15,7 @@ func NewCourseDataProvider(db database.Database) (CourseDataProvider, error) {
 	return CourseDataProvider{db}, nil
 }
 
-func (p CourseDataProvider) GetAllCourses() ([]entity.Course, error) {
+func (p CourseDataProvider) AllCourses() ([]entity.Course, error) {
 	var courses []entity.Course
 	err := p.db.Connection.Select(&courses, "SELECT * FROM course")
 	if err != nil {
@@ -24,7 +25,7 @@ func (p CourseDataProvider) GetAllCourses() ([]entity.Course, error) {
 	return courses, nil
 }
 
-func (p CourseDataProvider) GetAllCoursesForUser(idUser uint) ([]entity.Course, error) {
+func (p CourseDataProvider) AllCoursesForUser(idUser uint) ([]entity.Course, error) {
 	var courses []entity.Course
 	err := p.db.Connection.Select(&courses, "TODO;", idUser)
 	if err != nil {
@@ -34,7 +35,7 @@ func (p CourseDataProvider) GetAllCoursesForUser(idUser uint) ([]entity.Course, 
 	return courses, nil
 }
 
-func (p CourseDataProvider) GetCourseById(id uint64) (entity.Course, error) {
+func (p CourseDataProvider) CourseById(id uint64) (entity.Course, error) {
 	course := entity.Course{}
 	err := p.db.Connection.Get(&course, "SELECT * FROM course WHERE id=?;", strconv.FormatUint(id, 10))
 	if err != nil {
