@@ -53,7 +53,7 @@ func main() {
 	}
 
 	e.HTTPErrorHandler = customHTTPErrorHandler
-
+	e.Static("/", "public")
 	e.GET("/", pc.HandleMainPage)
 	e.GET("/course/:id", cc.CoursePage)
 	e.GET("/course/:idCourse/module/:idModule", cc.ModulePage)

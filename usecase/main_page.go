@@ -14,7 +14,7 @@ func NewMainPage(db database.Database) (MainPage, error) {
 	return MainPage{db}, nil
 }
 
-func (mp MainPage) GetCoursesList() ([]entity.Course, error) {
+func (mp MainPage) CoursesList() ([]entity.Course, error) {
 	cdp, err := dataprovider.NewCourseDataProvider(mp.db)
 	if err != nil {
 		return []entity.Course{}, err

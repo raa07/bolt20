@@ -26,7 +26,7 @@ func (pc Public) HandleMainPage(context echo.Context) error {
 	if err != nil {
 		return err
 	}
-	cl, err := mp.GetCoursesList()
+	cl, err := mp.CoursesList()
 	log.Print(cl)
 
 	return context.Render(http.StatusOK, "main_page", map[string]interface{}{
